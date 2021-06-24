@@ -1,24 +1,17 @@
-import React, { useState } from 'react'
+import React, { useState, useReducer } from 'react'
 import { View, Text, TextInput, StyleSheet } from 'react-native'
 import { Button } from 'react-native-elements'
 //import useFetch from "../hooks/useFetch";
 
 export default function UserGuest() {
     
-    const [input, setInput] = useState({
-        user: '',
-        password: '',
-    })
-
-    //const [response, setresponse] = useState({})
+    //const [user, dispatch] = useReducer(AuthReducer, {}, init)
 
     const HandleInputChange = (e, inpt) => {
-
         setInput({
             ...input,
             [ inpt ] : e,
         })        
-
         // console.log( input )
     }
 
