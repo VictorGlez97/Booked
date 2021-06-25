@@ -1,18 +1,25 @@
-import React, { useState, useReducer } from 'react'
+import React, { useState, useReducer, useContext } from 'react'
 import { View, Text, TextInput, StyleSheet } from 'react-native'
 import { Button } from 'react-native-elements'
+import { AuthContext } from '../../hooks/AuthContext';
+import { AuthReducer } from "../../hooks/AuthReducer";
+import { types } from '../../types/types';
 //import useFetch from "../hooks/useFetch";
 
 export default function UserGuest() {
     
-    //const [user, dispatch] = useReducer(AuthReducer, {}, init)
+    const { dispatch } = useContext(AuthContext)
+
+    const [input, setInput] = useState({
+        user: '',
+        password: '',
+    })
 
     const HandleInputChange = (e, inpt) => {
         setInput({
             ...input,
             [ inpt ] : e,
         })        
-        // console.log( input )
     }
 
     const HandleSubmit = async () => {
@@ -36,6 +43,24 @@ export default function UserGuest() {
 
         const jsonResponse = await response.json();
         console.log(jsonResponse);
+
+        await Login(jsonResponse);
+
+    }
+
+    const Login = ( obj ) => {
+
+        if (obj.status === 1){
+            dispatch({
+                type: types.login,
+                payload: {
+                    name: obj.user.us_name + " " + obj.user.us_lastname,
+                    email: obj.user.us_email,
+                }
+            })
+        } else {
+            alert(obj.message)
+        }
 
     }
     
